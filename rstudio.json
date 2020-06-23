@@ -1,0 +1,79 @@
+{
+    "catalog_api_version": "4", 
+    "config": {
+        "config_meta": {}, 
+        "config_choices": [], 
+        "node_services": [
+            {
+                "service_ids": [
+                    "ssh", 
+                    "rstudio-server"
+                ], 
+                "role_id": "rstudio"
+            }
+        ], 
+        "selected_roles": [
+            "rstudio"
+        ]
+    }, 
+    "label": {
+        "name": "BofA-R-Studio Offline", 
+        "description": "Rstudio for Bank of America  Offline"
+    }, 
+    "distro_id": "bofa/rstudiov2offline", 
+    "version": "2.0", 
+    "registry": {
+        "authentication_enabled": false, 
+        "url": "", 
+        "content_trust_enabled": false
+    }, 
+    "services": [
+        {
+            "endpoint": {
+                "port": "22", 
+                "is_dashboard": false
+            }, 
+            "id": "ssh", 
+            "label": {
+                "name": "SSH"
+            }
+        }, 
+        {
+            "endpoint": {
+                "url_scheme": "http", 
+                "path": "/", 
+                "is_dashboard": true, 
+                "port": "8787"
+            }, 
+            "id": "rstudio-server", 
+            "label": {
+                "name": "Rstudio server"
+            }
+        }
+    ], 
+    "logo": {
+        "checksum": "434b72fce2e66ddc2754910134eafefb", 
+        "source_file": "Logo_rstudio.png"
+    }, 
+    "setup_package": {
+        "config_api_version": 7, 
+        "checksum": "fb2c2a1a937d3105875fe641d838ead0", 
+        "source_file": "appconfig.tgz"
+    }, 
+    "node_roles": [
+        {
+            "image": {
+                "imageOSMajor": "7", 
+                "checksum": "99c2c8eac08d8bc442613d6e573e44bb", 
+                "imageOS": "centos", 
+                "source_file": "bluedata-rstudio-offline-1.0.tar.gz", 
+                "imageRepotag": "bluedata/rstudio-offline:1.0"
+            }, 
+            "cardinality": "0+", 
+            "id": "rstudio"
+        }
+    ], 
+    "categories": [
+        "Datascience"
+    ]
+}

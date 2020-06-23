@@ -17,7 +17,7 @@
         ]
     }, 
     "label": {
-        "name": "BofA-R-Studio Offline", 
+        "name": "BofA-R-Studio OfflinesaFSGBG", 
         "description": "Rstudio for Bank of America  Offline"
     }, 
     "distro_id": "bofa/rstudiov2offline", 

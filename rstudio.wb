@@ -1,0 +1,63 @@
+#!/usr/bin/env bdwb
+################################################################################
+#                                                                              #
+#  Sample workbench instructions for building a BlueData catalog entry.        #
+#                                                                              #
+################################################################################
+#
+# YOUR_ORGANIZATION_NAME must be replaced with a valid organization name. Please
+# refer to 'help builder organization' for details.
+#
+builder organization --name bofa
+
+## Begin a new catalog entry
+catalog new --distroid rstudiov2offline --name "R-Studio Offline"                          \
+            --desc "Rstudio for bofa  Offline"			\
+            --categories Datascience --catalogapi 4 --version 1.0
+
+## Define all node roles for the virtual cluster.
+role add rstudio 0+
+
+## Define all services that are available in the virtual cluster.
+
+service add --srvcid rstudio-server --name "Rstudio server" --scheme "http" --port 8787   \
+            --path "/" --display  \
+	    --sysctl rstudioserver             \
+	    --onroles rstudio
+
+
+## Appconfiguration autogeneration.
+appconfig autogen --new --configapi 7
+
+appconfig autogen --pkgfile start_rstudioserver.sh  --destdir /usr/lib/rstudio-server/conf/ \
+		  --pkgfile pam_mkhomedir.sh --destdir /usr/bin/ \
+		  --pkgfile rstudioserver  --destdir /etc/init.d/   
+#		  --pkgfile rstudio --destdir /etc/pam.d/  \
+
+appconfig autogen --generate
+appconfig package
+
+## Specify a logo file for the
+logo file --filepath Logo_rstudio.png
+
+################################################################################
+#                        Catalog package for CentOS                            #
+################################################################################
+image build --basedir image/rhel --image-repotag bofa/rstudio-offline:1.1
+image package --image-repotag bofa/rstudio-offline:1.1 --os rhel7
+catalog save --filepath staging/rstudio.json --force
+sources package
+catalog package
+
+################################################################################
+#                        Catalog package for RHEL                              #
+#                                                                              #
+# Set RHEL_USERNAME and RHEL_PASSWORD environment variables before invoking    #
+# the workbench. The Dockerfile uses subscription-manager to subscribe before  #
+# installing any packages. The subscription is cleaned up at the end of the    #
+# build process in the same Dockerfile.                                        #
+################################################################################
+#image build --basedir image/rhel --imgversion 1.0 --os rhel
+#catalog save --filepath staging/Jupyterhub-spark221-rhel.json --force
+#sources package
+#catalog package --os=rhel
